@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kisileruygulamasi.data.entity.Kisiler
 import com.example.kisileruygulamasi.databinding.CardTasarimBinding
 import com.example.kisileruygulamasi.ui.fragments.AnasayfaFragmentDirections
+import com.example.kisileruygulamasi.ui.viewmodel.AnasayfaViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class KisilerAdapter(var mContext: Context, var kisilerListesi : List<Kisiler>) :
+//viewmodel burada olmadıgı için ust sınıftan ıstıyoruz
+class KisilerAdapter(var mContext: Context, var kisilerListesi : List<Kisiler>,var viewModel: AnasayfaViewModel) :
 RecyclerView.Adapter<KisilerAdapter.CardTasarimTutucu>()//2 sınıfı(cardtasarımbinding) adaptera ekliyon
 {
     inner class CardTasarimTutucu(var tasarim :CardTasarimBinding) : RecyclerView.ViewHolder(tasarim.root) //1.tasarımı temsil eden bi sınıf oluşturcan
@@ -39,14 +41,11 @@ RecyclerView.Adapter<KisilerAdapter.CardTasarimTutucu>()//2 sınıfı(cardtasar�
         t.imageViewSil.setOnClickListener(){
             Snackbar.make(it,"${kisi.kisi_ad} silinsin mi?",Snackbar.LENGTH_SHORT)
                 .setAction("EVET"){
-                    sil(kisi.kisi_id)
+                    viewModel.sil(kisi.kisi_id)
                 }.show()
         }
 
     }
-        fun sil(kisi_id:Int){
-            Log.e("kişiyi sil",kisi_id.toString())
-        }
 
 
 

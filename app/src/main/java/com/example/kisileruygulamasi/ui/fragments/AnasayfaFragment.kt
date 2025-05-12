@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,11 +15,13 @@ import com.example.kisileruygulamasi.R
 import com.example.kisileruygulamasi.data.entity.Kisiler
 import com.example.kisileruygulamasi.databinding.FragmentAnasayfaBinding
 import com.example.kisileruygulamasi.ui.adapter.KisilerAdapter
+import com.example.kisileruygulamasi.ui.viewmodel.AnasayfaViewModel
 
-
+//fragment üzerinden de viewmodele erişmek istiyorum
 class AnasayfaFragment : Fragment() {
 
     private lateinit var binding:FragmentAnasayfaBinding
+    private lateinit var viewModel:AnasayfaViewModel //boş nesne daha sonra oluşturcam anlamında
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,42 +36,39 @@ class AnasayfaFragment : Fragment() {
 
         }
 
-        val kisilerListesi =ArrayList<Kisiler>()
-        val k1 = Kisiler(1,"ebrar","61")
-        val k2 = Kisiler(2,"ebrar","61")
-        val k3 = Kisiler(3,"ebrar","61")
-        val k4 = Kisiler(4,"ebrar","61")
-        val k5 = Kisiler(5,"ebrar","61")
-        kisilerListesi.add(k1)
-        kisilerListesi.add(k2)
-        kisilerListesi.add(k3)
-        kisilerListesi.add(k4)
-        kisilerListesi.add(k5)
+        viewModel.kisilerListesi.observe(viewLifecycleOwner){ //dinleme kısmı!!
+            val KisilerAdapter=KisilerAdapter(requireContext(),it,viewModel) //bizim listeyi veriyo
+            binding.kisilerRV.adapter=KisilerAdapter
+        }
 
-        val KisilerAdapter=KisilerAdapter(requireContext(),kisilerListesi)
-        binding.kisilerRV.adapter=KisilerAdapter
+
 
         binding.kisilerRV.layoutManager=LinearLayoutManager(requireContext())
 
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean { //harf girdikçe ve sildikçe çalışır
-                ara(newText)
+                viewModel.ara(newText)
                 return true
             }
 
             override fun onQueryTextSubmit(query: String): Boolean { //ara butonuna basılınca
-                ara(query)
+                viewModel.ara(query)
                 return true
             }
         })
         return binding.root
         }
-    fun ara(aramaKelimesi : String){
-        Log.e("kisi ara", aramaKelimesi)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val temViewModel:AnasayfaViewModel by viewModels()
+        viewModel=temViewModel
+
     }
-    override fun onResume(){ //anasayfaya geri döndürüldüğünde çalışan fonk
+
+    override fun onResume(){ //anasayfaya geri döndürüldüğünde çalışan fonk, kisileriyukle()çalışmazsa kişiler gelmez kaydetme sasyfasından geri dönünce
         super.onResume()
-        Log.e("kişi anasayfaya","donuldu")
+        viewModel.kisileriYukle()
     }
 }
