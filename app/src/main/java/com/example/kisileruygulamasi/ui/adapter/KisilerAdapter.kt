@@ -10,6 +10,7 @@ import com.example.kisileruygulamasi.data.entity.Kisiler
 import com.example.kisileruygulamasi.databinding.CardTasarimBinding
 import com.example.kisileruygulamasi.ui.fragments.AnasayfaFragmentDirections
 import com.example.kisileruygulamasi.ui.viewmodel.AnasayfaViewModel
+import com.example.kisileruygulamasi.utils.gecisYap
 import com.google.android.material.snackbar.Snackbar
 
 //viewmodel burada olmadıgı için ust sınıftan ıstıyoruz
@@ -35,7 +36,8 @@ RecyclerView.Adapter<KisilerAdapter.CardTasarimTutucu>()//2 sınıfı(cardtasar�
 
         t.cardViewSatir.setOnClickListener(){
             val gecis=AnasayfaFragmentDirections.kisiDetayGecis(kisi = kisi)
-            Navigation.findNavController(it).navigate(gecis)
+            //Navigation.findNavController(it).navigate(gecis)
+            Navigation.gecisYap(it,gecis)
         }
 
         t.imageViewSil.setOnClickListener(){
@@ -46,8 +48,4 @@ RecyclerView.Adapter<KisilerAdapter.CardTasarimTutucu>()//2 sınıfı(cardtasar�
         }
 
     }
-
-
-
-
 }

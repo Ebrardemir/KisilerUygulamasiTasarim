@@ -16,9 +16,12 @@ import com.example.kisileruygulamasi.data.entity.Kisiler
 import com.example.kisileruygulamasi.databinding.FragmentAnasayfaBinding
 import com.example.kisileruygulamasi.ui.adapter.KisilerAdapter
 import com.example.kisileruygulamasi.ui.viewmodel.AnasayfaViewModel
+import com.example.kisileruygulamasi.utils.gecisYap
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 //fragment üzerinden de viewmodele erişmek istiyorum
-class AnasayfaFragment : Fragment() {
+class AnasayfaFragment : Fragment(){
 
     private lateinit var binding:FragmentAnasayfaBinding
     private lateinit var viewModel:AnasayfaViewModel //boş nesne daha sonra oluşturcam anlamında
@@ -32,7 +35,8 @@ class AnasayfaFragment : Fragment() {
         binding = FragmentAnasayfaBinding.inflate(inflater, container, false)
 
         binding.fab.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.kisiKayitGecis)
+            //Navigation.findNavController(it).navigate(R.id.kisiKayitGecis)
+            Navigation.gecisYap(it,R.id.kisiKayitGecis) //yaptıgım şey uzun kodu bi yerde tanımlayıp her şeyde ordan erişmek
 
         }
 

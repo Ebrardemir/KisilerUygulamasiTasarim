@@ -5,13 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kisileruygulamasi.data.entity.Kisiler
 import com.example.kisileruygulamasi.data.repo.KisilerRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
 //butun viewmodellerde repository e erişmemiz lazım
-class AnasayfaViewModel:ViewModel() {
-    var kisilerRepository=KisilerRepository()
+class AnasayfaViewModel @Inject constructor (var kisilerRepository: KisilerRepository):ViewModel() {
+
     var kisilerListesi = MutableLiveData<List<Kisiler>>()
 
     init {
